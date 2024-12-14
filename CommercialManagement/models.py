@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import timedelta , date
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 
@@ -30,14 +31,21 @@ class Customer(models.Model):
     def __str__(self):
         return self.name
     
+    def age(self):
+        today = date.today()
+        if self.birthday:
+            age = today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+            return age
     
 class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(null=True, blank=True)
+    category = models.ForeignKey('Category', related_name='products' ,on_delete=models.CASCADE)
     quantity = models.IntegerField()
     year_of_production = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     
     @classmethod
@@ -49,17 +57,36 @@ class Product(models.Model):
         verbose_name_plural = 'Products'
     def __str__(self):
         return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
     
-class SalesOrder(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('completed', 'Completed')])
-    created_at = models.DateTimeField(auto_now_add=True)
-    
+
     @classmethod
     def get_all(cls):
         return cls.objects.all()
+    class Meta: 
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+        
+    def __str__(self):
+        return self.name
+class SalesOrder(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=50, choices=[('pending', 'Pending'), ('completed', 'Completed')])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.all()
+    
+    @classmethod
+    def get_pending_orders(cls):
+        return cls.objects.filter(status='pending')
+
     
     class Meta:
         verbose_name = 'Sales Order'
@@ -67,6 +94,10 @@ class SalesOrder(models.Model):
         
     def __str__(self):
         return f"Sales Order #{self.id}"
+    
+    def clean(self):
+        if self.status == 'completed' and self.total_amount <= 0:
+            raise ValidationError("Total amount must be greater than zero for completed orders.")
     
     
 class OrderItem(models.Model):
