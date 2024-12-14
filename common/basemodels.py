@@ -90,3 +90,5 @@ class BaseEmployeeModel(models.Model):
 
     class Meta:
         abstract = True
+
+
