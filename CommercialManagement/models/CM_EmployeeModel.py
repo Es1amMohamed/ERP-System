@@ -5,9 +5,12 @@ from django.db import models
 class CM_EmployeeModel(base_models.BaseEmployeeModel):
     JOB_TITLES = [
         ('HR_MANAGER', 'HR Manager'),
+        ('HR_SPECIALIST', 'HR Specialist'),
         ('TEAM_LEADER', 'Team Leader'),
         ('SALES_MANAGER', 'Sales Manager'),
+        ('SALES_REPRESENTATIVE', 'Sales Representative'),
         ('MARKETING_MANAGER', 'Marketing Manager'),
+        ('MARKETING_SPECIALIST', 'Marketing Specialist'),
         ('CUSTOMER_SERVICE_REP', 'Customer Service Representative'),
         ('PROCUREMENT_MANAGER', 'Procurement Manager'),
         ('FINANCIAL_ANALYST', 'Financial Analyst'),
