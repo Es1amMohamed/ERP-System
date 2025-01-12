@@ -56,6 +56,14 @@ class PurchaseOrderAdmin(admin.ModelAdmin):
     search_fields = ["supplier__name"]
     list_per_page = 10
 
+<<<<<<< HEAD
+=======
+class CM_EmployeeModelAdmin(admin.ModelAdmin):
+    list_display = ['first_name', 'email', 'phone_number1', 'address']
+    list_filter = ['first_name',]
+    search_fields = ['first_name', 'email', 'phone_number1', 'address']
+    list_per_page = 10
+>>>>>>> 4f332b442cb968691c6edc0734daa05d236fd902
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Customer, CustomerAdmin)
@@ -63,3 +71,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(SalesOrder, SalesOrderAdmin)
 admin.site.register(Supplier, SupplierAdmin)
 admin.site.register(PurchaseOrder, PurchaseOrderAdmin)
+admin.site.register(CM_EmployeeModel, CM_EmployeeModelAdmin)
