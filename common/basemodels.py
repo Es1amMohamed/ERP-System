@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
+from datetime import timedelta, date
 
 
 class BaseEmployeeModel(models.Model):
@@ -72,7 +72,7 @@ class BaseEmployeeModel(models.Model):
         choices=GENDER_CHOICES,
         default="male",
     )
-    year_of_birth = models.DateField(null=False, blank=False)
+    date_of_birth = models.DateField(null=False, blank=False)
     marital_status = models.CharField(
         max_length=10,
         choices=MARITAL_STATUS_CHOICES,
@@ -88,7 +88,26 @@ class BaseEmployeeModel(models.Model):
     def __str__(self):
         return f"name is {self.first_name} and email is {self.email}"
 
+    @property
+    def age(self):
+        today = date.today()
+        if self.date_of_birth:
+            age = (
+                today.year
+                - self.date_of_birth.year
+                - (
+                    (today.month, today.day)
+                    < (self.date_of_birth.month, self.date_of_birth.day)
+                )
+            )
+            return age
+        return None
+
+    @property
+    def years_with_company(self):
+        today = date.today()
+        delta = today - self.employment_date
+        return delta.days // 365
+
     class Meta:
         abstract = True
-
-
