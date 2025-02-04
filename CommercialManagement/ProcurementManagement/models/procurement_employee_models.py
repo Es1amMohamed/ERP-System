@@ -1,4 +1,4 @@
-from common.basemodels import BaseEmployeeModel
+from src.common.base_models import BaseEmployeeModel
 from django.db import models
 
 

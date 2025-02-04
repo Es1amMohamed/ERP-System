@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from SalesManagement.models import seles_models, sales_employee_models
 
 
 class CustomerAdmin(admin.ModelAdmin):
@@ -56,19 +56,19 @@ class PurchaseOrderAdmin(admin.ModelAdmin):
     search_fields = ["supplier__name"]
     list_per_page = 10
 
-<<<<<<< HEAD
-=======
-class CM_EmployeeModelAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'email', 'phone_number1', 'address']
-    list_filter = ['first_name',]
-    search_fields = ['first_name', 'email', 'phone_number1', 'address']
-    list_per_page = 10
->>>>>>> 4f332b442cb968691c6edc0734daa05d236fd902
 
-admin.site.register(Product, ProductAdmin)
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(SalesOrder, SalesOrderAdmin)
-admin.site.register(Supplier, SupplierAdmin)
-admin.site.register(PurchaseOrder, PurchaseOrderAdmin)
-admin.site.register(CM_EmployeeModel, CM_EmployeeModelAdmin)
+class CM_EmployeeModelAdmin(admin.ModelAdmin):
+    list_display = ["first_name", "email", "phone_number1", "address"]
+    list_filter = [
+        "first_name",
+    ]
+    search_fields = ["first_name", "email", "phone_number1", "address"]
+    list_per_page = 10
+
+
+admin.site.register(seles_models.Customer, CustomerAdmin)
+admin.site.register(seles_models.Category, CategoryAdmin)
+admin.site.register(seles_models.SalesOrder, SalesOrderAdmin)
+admin.site.register(seles_models.Supplier, SupplierAdmin)
+admin.site.register(seles_models.PurchaseOrder, PurchaseOrderAdmin)
+admin.site.register(sales_employee_models.SalesEmployeeModel, CM_EmployeeModelAdmin)
