@@ -23,7 +23,8 @@ class Supplier(models.Model):
 
 class PurchaseOrder(models.Model):
     procurement_employee = models.ForeignKey(
-        ProcurementEmployeeModel, on_delete=models.PROTECT
+        ProcurementEmployeeModel, on_delete=models.PROTECT, verbose_name=("Procurement Employee"),
+        default= None
     )
     supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT)
     order_date = models.DateTimeField(auto_now_add=True)

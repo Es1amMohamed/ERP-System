@@ -41,6 +41,13 @@ INSTALLED_APPS = [
     ## My Apps
     "GenralAdministration",
     "CommercialManagement",
+    "InnovationAndTechnologyManagement",
+    "FinanceAndAccountingManagement",
+    "LogisticsAndDistributionManagement",
+    "OperationsManagement",
+    "QualityAssuranceManagement",
+    "RecruitmentandTechnicalEvaluation",
+
     ## 3rd party apps
     "rest_framework",
     "rest_framework_simplejwt",
